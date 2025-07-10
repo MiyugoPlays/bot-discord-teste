@@ -2,27 +2,76 @@ const { SlashCommandBuilder, MessageFlags, ChannelType, PermissionsBitField } = 
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('echo')
-        .setDescription('Replies with your input!')
-        .addStringOption(option =>
-            option.setName('input')
-                .setDescription('the input to echo back')
-                .setRequired(true)
-        )
-        .addBooleanOption(option =>
-            option.setName('ephemeral')
-                .setDescription('Whether or not the echo should be ephemeral')
-                .setRequired(true)
-        )
-        .addChannelOption(option =>
-            option.setName('channel')
-            .setDescription('The channel to echo into')
+            .setName('imprimir')
+    .setNameLocalizations({
+        'en-US': 'echo',
+        'es-ES': 'eco',
+        'fr': 'echo',
+        'ja': 'エコー'
+    })
+    .setDescription('Responde o que você escreveu!')
+    .setDescriptionLocalizations({
+        'en-US': 'Replies with your input!',
+        'es-ES': '¡Responde con lo que escribiste!',
+        'fr': 'Répond avec ce que vous avez écrit !',
+        'ja': '入力に応答します！'
+    })
+    .addStringOption(option =>
+        option.setName('texto')
+            .setNameLocalizations({
+                'en-US': 'input',
+                'es-ES': 'entrada',
+                'fr': 'entrée',
+                'ja': '入力'
+            })
+            .setDescription('O texto que vai ser imprimido')
+            .setDescriptionLocalizations({
+                'en-US': 'The input to echo back',
+                'es-ES': 'El texto que se devolverá',
+                'fr': 'Le texte à répéter',
+                'ja': 'エコーする入力テキスト'
+            })
+            .setRequired(true)
+    )
+    .addBooleanOption(option =>
+        option.setName('temporario')
+            .setNameLocalizations({
+                'en-US': 'ephemeral',
+                'es-ES': 'efímero',
+                'fr': 'éphémère',
+                'ja': '一時的'
+            })
+            .setDescription('Opção para tornar a mensagem do bot temporária ou não')
+            .setDescriptionLocalizations({
+                'en-US': 'Whether or not the echo should be ephemeral',
+                'es-ES': 'Si la respuesta debe ser efímera o no',
+                'fr': 'Si la réponse doit être éphémère ou non',
+                'ja': '返信を一時的にするかどうか'
+            })
+            .setRequired(true)
+    )
+    .addChannelOption(option =>
+        option.setName('canal')
+            .setNameLocalizations({
+                'en-US': 'channel',
+                'es-ES': 'canal',
+                'fr': 'canal',
+                'ja': 'チャンネル'
+            })
+            .setDescription('Escolhe o canal que vai ser imprimido o texto')
+            .setDescriptionLocalizations({
+                'en-US': 'The channel to echo into',
+                'es-ES': 'El canal donde se enviará el texto',
+                'fr': 'Le canal où le texte sera envoyé',
+                'ja': 'テキストを表示するチャンネル'
+            })
             .addChannelTypes(ChannelType.GuildText)
-        ),
+    ),
+
     async execute(interaction){
-        const userInput = interaction.options.getString('input');
-        const isEphemeral = interaction.options.getBoolean('ephemeral') ?? false;
-        const channel = interaction.options.getChannel('channel');
+        const userInput = interaction.options.getString('texto');
+        const isEphemeral = interaction.options.getBoolean('temporario') ?? false;
+        const channel = interaction.options.getChannel('canal');
         
         const replyOptions = {
             content: '',
